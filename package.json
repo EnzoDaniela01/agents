@@ -8,6 +8,7 @@
     "install-agents": "bin/install.js"
   },
   "scripts": {
+    "test": "node scripts/validate.js",
     "postinstall": "node bin/install.js",
     "docs": "python scripts/generate_docs.py"
   },

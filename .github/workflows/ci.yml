@@ -19,26 +19,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Validate CLI syntax
+      - name: Run Test and Validation Suite
         run: |
-          node -c bin/install.js
-
-      - name: Test CLI Commands
-        run: |
-          node bin/install.js help
-          node bin/install.js list
-
-      - name: Validate Antigravity Manifest
-        run: |
-          node -e "
-            const manifest = require('./.agents/skills/.antigravity-install-manifest.json');
-            const fs = require('fs');
-            const skills = fs.readdirSync('./.agents/skills', { withFileTypes: true })
-              .filter(d => d.isDirectory())
-              .map(d => d.name);
-            console.log('Manifest entries:', manifest.entries.length);
-            console.log('Actual directories:', skills.length);
-            if (manifest.entries.length !== skills.length) {
-              console.warn('Warning: Manifest count differs from folder count');
-            }
-          "
+          npm test
