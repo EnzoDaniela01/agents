@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@enzosoti/agents — AI Agent Skills & Personas</title>
+  <meta name="description" content="Drop-in modular AI agent skills (45) and specialized agent personas (5) for any software engineering project. Copy, paste, and ship." />
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --surface-2: #1a2335;
+      --border: #243047;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --green: #10b981;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Nav */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 15, 25, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* Hero */
+    .hero {
+      padding: 72px 0 48px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.1rem, 5vw, 3.3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      font-weight: 800;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 660px;
+      margin: 0 auto 32px;
+    }
+
+    /* Install Box */
+    .install-card {
+      max-width: 740px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      text-align: left;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: #0e1422;
+      padding: 0 12px;
+      gap: 4px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      padding: 12px 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .cmd-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+    }
+    .cmd-text {
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .cmd-prefix { color: var(--accent); margin-right: 8px; user-select: none; }
+
+    .copy-btn {
+      flex-shrink: 0;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .copy-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .copy-btn.copied {
+      background: var(--green);
+      border-color: var(--green);
+      color: #052e16;
+    }
+
+    .hero-meta {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* Sections */
+    section {
+      padding: 44px 0;
+      border-top: 1px solid var(--border);
+    }
+    h2 {
+      font-size: 1.55rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 24px;
+      font-size: 0.96rem;
+    }
+
+    /* Steps Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .step-num {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.12);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .mini-cmd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #0b0f19;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .mini-cmd code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .mini-copy {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .mini-copy:hover { background: var(--accent); border-color: var(--accent); }
+    .mini-copy.copied { background: var(--green); border-color: var(--green); color: #052e16; }
+
+    /* Presets */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    /* Personas */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
+    .persona-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .persona-chip strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: #93c5fd;
+      margin-bottom: 4px;
+    }
+    .persona-chip span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* Skills Browser */
+    .search-bar {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+      outline: none;
+    }
+    .search-bar:focus { border-color: var(--accent); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .skill-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: left;
+      color: var(--text);
+      width: 100%;
+    }
+    .skill-pill:hover {
+      border-color: var(--accent);
+      background: var(--surface-2);
+    }
+    .skill-pill span {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .skill-pill small {
+      font-size: 0.72rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .skill-pill.copied {
+      border-color: var(--green);
+    }
+    .skill-pill.copied small {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <span>@enzosoti/agents</span>
+        <span class="badge">45 skills · 5 personas</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#quickstart">Quick Start</a>
+        <a href="#presets">Presets</a>
+        <a href="#skills">Skills</a>
+        <a href="https://github.com/EnzoDaniela01/agents" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <h1>Drop-in AI Agent Skills<br />for Any Codebase</h1>
+      <p>
+        Copy and paste one command to install 45 engineering skills and 5 specialized agent personas into your project. Works with Antigravity, Cursor, Claude, and Copilot.
+      </p>
+
+      <div class="install-card">
+        <div class="tabs" role="tablist">
+          <button class="tab-btn active" data-cmd="npm install https://github.com/EnzoDaniela01/agents.git --save-dev">npm</button>
+          <button class="tab-btn" data-cmd="npx https://github.com/EnzoDaniela01/agents.git">npx</button>
+          <button class="tab-btn" data-cmd="yarn add https://github.com/EnzoDaniela01/agents.git --dev">yarn</button>
+          <button class="tab-btn" data-cmd="pnpm add -D https://github.com/EnzoDaniela01/agents.git">pnpm</button>
+        </div>
+        <div class="cmd-row">
+          <div class="cmd-text">
+            <span class="cmd-prefix">$</span><span id="main-cmd">npm install https://github.com/EnzoDaniela01/agents.git --save-dev</span>
+          </div>
+          <button class="copy-btn" id="main-copy">Copy</button>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <span>Safe non-destructive install</span>
+        <span>•</span>
+        <span>Zero config required</span>
+        <span>•</span>
+        <a href="https://github.com/EnzoDaniela01/agents/blob/main/docs/instructions.pdf" target="_blank" rel="noopener">Download PDF Guide →</a>
+      </div>
+    </div>
+
+    <section id="quickstart">
+      <h2>3-Step Setup</h2>
+      <p class="section-sub">Run these commands in your project root terminal.</p>
+      <div class="grid-3">
+        <div class="card">
+          <span class="step-num">STEP 1</span>
+          <h3>Install .agents/</h3>
+          <p>Automatically copies all 45 skills and 5 agent personas into your project root.</p>
+          <div class="mini-cmd">
+            <code>npm install https://github.com/EnzoDaniela01/agents.git --save-dev</code>
+            <button class="mini-copy" data-copy="npm install https://github.com/EnzoDaniela01/agents.git --save-dev">Copy</button>
+          </div>
+        </div>
+        <div class="card">
+          <span class="step-num">STEP 2</span>
+          <h3>Link Your AI IDE</h3>
+          <p>Generate pointer files (<code>.cursorrules</code> and <code>CLAUDE.md</code>) so every AI assistant discovers your skills.</p>
+          <div class="mini-cmd">
+            <code>npx agents link</code>
+            <button class="mini-copy" data-copy="npx agents link">Copy</button>
+          </div>
+        </div>
+        <div class="card">
+          <span class="step-num">STEP 3</span>
+          <h3>Keep Skills Updated</h3>
+          <p>Pull the latest skills and prompt updates anytime from GitHub.</p>
+          <div class="mini-cmd">
+            <code>npx agents install --force</code>
+            <button class="mini-copy" data-copy="npx agents install --force">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="presets">
+      <h2>Install by Preset Bundle</h2>
+      <p class="section-sub">Prefer a smaller footprint? Install only the bundle you need.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Core Engineering</h3>
+          <p>Orchestrator, TDD, Poka-Yoke, Five-Axis Review, Change Tracker.</p>
+          <div class="mini-cmd">
+            <code>npx agents install --preset=core</code>
+            <button class="mini-copy" data-copy="npx agents install --preset=core">Copy</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>UI &amp; Design</h3>
+          <p>UI/UX Pro Max, Tailwind/shadcn Styling, Design System, Brand, Slides.</p>
+          <div class="mini-cmd">
+            <code>npx agents install --preset=ui</code>
+            <button class="mini-copy" data-copy="npx agents install --preset=ui">Copy</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>QA &amp; Debugging</h3>
+          <p>Bug Hunter, Diagnosing Bugs, Performance Optimizer, Pre-Push Audit.</p>
+          <div class="mini-cmd">
+            <code>npx agents install --preset=qa</code>
+            <button class="mini-copy" data-copy="npx agents install --preset=qa">Copy</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>App &amp; Architecture</h3>
+          <p>API Endpoint Builder, API Design, Prototyping, Architecture Deepening.</p>
+          <div class="mini-cmd">
+            <code>npx agents install --preset=app</code>
+            <button class="mini-copy" data-copy="npx agents install --preset=app">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="personas">
+      <h2>5 Specialized Agent Personas</h2>
+      <p class="section-sub">Included in <code>.agents/agents/</code> for focused audits and reviews.</p>
+      <div class="persona-grid">
+        <div class="persona-chip"><strong>accessibility-auditor</strong><span>WCAG 2.2 AA &amp; ARIA compliance</span></div>
+        <div class="persona-chip"><strong>code-reviewer</strong><span>Five-axis pre-merge code review</span></div>
+        <div class="persona-chip"><strong>security-auditor</strong><span>OWASP &amp; threat modeling</span></div>
+        <div class="persona-chip"><strong>test-engineer</strong><span>Test strategy &amp; coverage</span></div>
+        <div class="persona-chip"><strong>web-performance-auditor</strong><span>Core Web Vitals &amp; rendering</span></div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Browse All 45 Skills</h2>
+      <p class="section-sub">Click any skill to copy its individual install command (<code>npx agents add &lt;skill&gt;</code>).</p>
+      <input type="text" id="skill-search" class="search-bar" placeholder="Filter skills (e.g. tdd, security, ui, api)..." />
+      <div class="skills-grid" id="skills-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      MIT Licensed · Maintained by <a href="https://github.com/EnzoDaniela01/agents" target="_blank" rel="noopener">EnzoDaniela01/agents</a>
+    </div>
+  </footer>
+
+  <script>
+    const SKILLS = [
+      "accessibility-engineering", "api-and-interface-design", "api-endpoint-builder",
+      "banner-design", "brand", "browser-testing-with-devtools", "bug-hunter",
+      "ci-cd-and-automation", "code-review-and-quality", "code-simplification",
+      "codebase-audit-pre-push", "constraint-driven-development", "context-engineering",
+      "debugging-and-error-recovery", "deprecation-and-migration", "design",
+      "design-system", "diagnosing-bugs", "documentation-and-adrs",
+      "doubt-driven-development", "five-axis-code-review", "frontend-ui-engineering",
+      "git-workflow-and-versioning", "idea-refine", "improve-codebase-architecture",
+      "incremental-implementation", "interview-me", "observability-and-instrumentation",
+      "performance-optimization", "performance-optimizer", "planning-and-task-breakdown",
+      "poka-yoke", "prototype", "security-and-hardening", "shipping-and-launch",
+      "slides", "source-driven-development", "spec-driven-development", "tdd",
+      "technical-change-tracker", "test-driven-development", "ui-styling",
+      "ui-ux-pro-max", "universal-dev-orchestrator", "using-agent-skills"
+    ];
+
+    async function copyText(text, btn, labelDefault = "Copy") {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      btn.classList.add("copied");
+      const prev = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => {
+        btn.classList.remove("copied");
+        btn.textContent = labelDefault || prev;
+      }, 1400);
+    }
+
+    // Main install tabs
+    const mainCmdEl = document.getElementById("main-cmd");
+    const mainCopyBtn = document.getElementById("main-copy");
+    document.querySelectorAll(".tab-btn").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        mainCmdEl.textContent = tab.dataset.cmd;
+      });
+    });
+    mainCopyBtn.addEventListener("click", () => copyText(mainCmdEl.textContent, mainCopyBtn, "Copy"));
+
+    // Mini copy buttons
+    document.querySelectorAll(".mini-copy").forEach((btn) => {
+      btn.addEventListener("click", () => copyText(btn.dataset.copy, btn, "Copy"));
+    });
+
+    // Skills grid
+    const grid = document.getElementById("skills-grid");
+    const searchInput = document.getElementById("skill-search");
+
+    function renderSkills(filter = "") {
+      const q = filter.trim().toLowerCase();
+      const matches = SKILLS.filter((s) => s.includes(q));
+      grid.innerHTML = "";
+      matches.forEach((skill) => {
+        const btn = document.createElement("button");
+        btn.className = "skill-pill";
+        btn.innerHTML = `<span>${skill}</span><small>Copy cmd</small>`;
+        btn.addEventListener("click", () => {
+          const small = btn.querySelector("small");
+          navigator.clipboard?.writeText(`npx agents add ${skill}`);
+          btn.classList.add("copied");
+          small.textContent = "Copied!";
+          setTimeout(() => {
+            btn.classList.remove("copied");
+            small.textContent = "Copy cmd";
+          }, 1200);
+        });
+        grid.appendChild(btn);
+      });
+    }
+
+    searchInput.addEventListener("input", (e) => renderSkills(e.target.value));
+    renderSkills();
+  </script>
+</body>
+</html>
