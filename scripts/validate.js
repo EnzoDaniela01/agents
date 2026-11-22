@@ -126,6 +126,18 @@ check('Verify docs/README.md master index existence', () => {
   }
 });
 
+// 8. Check .agents/agents personas existence
+check('Verify .agents/agents personas directory contains markdown definitions', () => {
+  const agentsDir = path.resolve(__dirname, '../.agents/agents');
+  if (!fs.existsSync(agentsDir)) {
+    throw new Error('Missing .agents/agents directory');
+  }
+  const mdFiles = fs.readdirSync(agentsDir).filter((f) => f.endsWith('.md'));
+  if (mdFiles.length === 0) {
+    throw new Error('.agents/agents directory has no .md agent definitions');
+  }
+});
+
 console.log('\n------------------------------------------------------------');
 if (hasErrors) {
   console.error('❌ Validation FAILED. Please resolve errors listed above.');

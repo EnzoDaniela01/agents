@@ -27,8 +27,8 @@ const PRESETS = {
     'codebase-audit-pre-push'
   ],
   app: [
-    'fct-app-v4',
     'api-endpoint-builder',
+    'api-and-interface-design',
     'prototype',
     'improve-codebase-architecture'
   ]

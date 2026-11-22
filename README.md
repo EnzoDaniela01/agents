@@ -19,7 +19,6 @@ my-project/
 │       ├── codebase-audit-pre-push/
 │       ├── design-system/
 │       ├── diagnosing-bugs/
-│       ├── fct-app-v4/
 │       ├── five-axis-code-review/
 │       ├── performance-optimizer/
 │       ├── poka-yoke/
@@ -86,7 +85,7 @@ npx agents [command]
 You can use `npx agents` to manage, inspect, or selectively install skills:
 
 ```bash
-# List all 20 available skills
+# List all 45 available skills
 npx agents list
 
 # Install specific skill(s) only
@@ -150,7 +149,10 @@ The installation is driven by `bin/install.js` via the npm `postinstall` hook.
 | **`prototype`** | Prototyping | Fast throwaway prototyping for validating state logic and experimental UI components. |
 | **`improve-codebase-architecture`** | Architecture | Architecture seam analysis, decoupling, and visual HTML architecture reports. |
 | **`technical-change-tracker`** | Session Continuity | Structured JSON change records and AI session handoffs for multi-bot continuity. |
-| **`fct-app-v4`** | Domain Architecture | Complete architecture map, module routes, and real-time state conventions for FCT App. |
+| **`accessibility-engineering`** | Accessibility | WCAG 2.2 AA compliance, semantic HTML, ARIA patterns, and keyboard/screen-reader verification. |
+| **`security-and-hardening`** | Security | Threat modeling, OWASP defense, input validation, and secrets hygiene. |
+| **`spec-driven-development`** | Engineering | Specification-first design, planning, and structured implementation workflows. |
+| **+ 23 additional skills** | Full Lifecycle | Includes `api-and-interface-design`, `browser-testing-with-devtools`, `ci-cd-and-automation`, `code-review-and-quality`, `code-simplification`, `constraint-driven-development`, `context-engineering`, `debugging-and-error-recovery`, `deprecation-and-migration`, `documentation-and-adrs`, `doubt-driven-development`, `frontend-ui-engineering`, `git-workflow-and-versioning`, `idea-refine`, `incremental-implementation`, `interview-me`, `observability-and-instrumentation`, `performance-optimization`, `planning-and-task-breakdown`, `shipping-and-launch`, `source-driven-development`, `test-driven-development`, and `using-agent-skills`. |
 
 ---
 

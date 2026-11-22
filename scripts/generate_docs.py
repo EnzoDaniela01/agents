@@ -265,11 +265,6 @@ npx agents install --force"""
             Paragraph("<b>technical-change-tracker</b>", table_cell_style),
             Paragraph("Continuity", table_cell_style),
             Paragraph("Structured JSON change records, state machine tracking, cross-session AI handoffs.", table_cell_style)
-        ],
-        [
-            Paragraph("<b>fct-app-v4</b>", table_cell_style),
-            Paragraph("Architecture Map", table_cell_style),
-            Paragraph("Full system map for FCT App: React 19, TypeScript, Power Apps Code App, module routes.", table_cell_style)
         ]
     ]
 

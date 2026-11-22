@@ -15,7 +15,6 @@ Welcome to the codebase. When working on this repository, every AI agent must st
 ## Rule 2: Technical Skills Inventory
 Agent capabilities and operational playbooks are maintained in `.agents/skills/`. Key skills include:
 - `universal-dev-orchestrator`: End-to-end engineering pipeline, TDD, two-stage review, and verification gates.
-- `fct-app-v4`: Authoritative architecture map, routing, state synchronization, and permission hierarchy.
 - `codebase-audit-pre-push`: Pre-push hygiene, secret screening, and dead file removal.
 - `poka-yoke`: Mistake-proofing conventions and defensive assertions.
 - `ui-ux-pro-max` & `ui-styling`: Design systems, token conventions, and responsive components.
@@ -48,7 +47,7 @@ Whenever an agent creates or modifies a file, it must strictly land in its assig
 | **Developer Handbooks, Tokens & Screenshot Guides (.md)** | `docs/06-developer-guides/` |
 | **Release Notes & Sprint Deployment Logs (.md)** | `docs/07-sprints-and-releases/` |
 | **Formal Backend Change Requests (BR-xxx-*.md)** | `backend-requests/` |
-| **Design System Specs & Component Catalogs (.md)** | `design-system/fct-app-v4/` |
+| **Design System Specs & Component Catalogs (.md)** | `design-system/` |
 | **Dev Server, Proxy & Middleware Scripts** | `scripts/01-dev-server/` |
 | **Automated Test Runners & E2E Validation Scripts** | `scripts/02-testing/` |
 | **Doc Builders & Word Generator Scripts** | `scripts/03-doc-generators/` |
